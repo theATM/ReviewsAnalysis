@@ -1,0 +1,6 @@
+#Pycharm files:
+.idea*
+#Environments:
+*env*
+*conda*
+#Data:

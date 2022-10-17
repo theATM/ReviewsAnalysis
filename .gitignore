@@ -4,5 +4,8 @@
 *env*
 *conda*
 #Data:
+data*
+*.csv
+#Caches
 cache
-Suomi.csv
+__pycache__

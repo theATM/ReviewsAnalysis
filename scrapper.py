@@ -28,29 +28,19 @@ def apple_scrapp(app_name, app_id, country, how_many):
     return appStore_dataframe
 
 
+class Translator:
+    def __init__(self,model_type='opus-mt',device='cuda',cache_folder="cache/transformers"):
+        from easynmt import EasyNMT
+        import os
+        import torch
+        self.device = torch.device(device)  # change to cpu if you do not have a gpu else cuda
+        self.model_fi = EasyNMT('opus-mt', cache_folder=cache_folder, device=device)
+        #self.model_sw = EasyNMT('mbart50_m2en', cache_folder=cache_folder, device=device)
 
-#def data_scrapp():
-#    googlePlay_suomi112_reviews = reviews_all(
-#        'fi.digia.suomi112',
-#        sleep_milliseconds=0,  # defaults to 0
-#        lang='en',  # defaults to 'en'
-#        country='fi',  # defaults to 'us'
-#        sort=Sort.NEWEST,  # defaults to Sort.MOST_RELEVANT
-#    )
-#    googlePlay_suomi112_dataframe = pd.DataFrame(np.array(googlePlay_suomi112_reviews), columns=['review'])
-#
-#    googlePlay_plus_reviews = reviews_all(
-#        'com.threesixtyentertainment.nesn',
-#        sleep_milliseconds=0,  # defaults to 0
-#        lang='en',  # defaults to 'en'
-#        country='fi',  # defaults to 'us'
-#        sort=Sort.NEWEST,  # defaults to Sort.MOST_RELEVANT
-#    )
-#
-#    appStore_suomi112 = AppStore(country='fi', app_name='112 Suomi', app_id='998281396')
-#    appStore_suomi112.review(how_many=100)
-#    appStore_suomi112_dataframe = pd.DataFrame(np.array(appStore_suomi112.reviews), columns=['review'])
-#
-#    appStore_plus = AppStore(country='fi', app_name='Emergency Plus', app_id='691814685')
-#    appStore_plus.review(how_many=100)
+    def translate(self,scrapped_data):
+        scrapped_data['translatedContent'] = scrapped_data['content'].apply(lambda x: self.model_fi.translate(x, target_lang="en", source_lang="fi", max_length=512))
+        #scrapped_data['translatedContent'] = scrapped_data['translatedContent'].apply(lambda x: self.model_sw.translate(x, target_lang="en", source_lang="sw", max_length=512))
+        return scrapped_data
+
+
 

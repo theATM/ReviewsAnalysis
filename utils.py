@@ -20,7 +20,7 @@ class Processor:
         nltk.data.path.append('data' + os.sep + "lib" + os.sep + 'wordnet')
         nltk.download('wordnet', download_dir="data" + os.sep + "lib" + os.sep + "wordnet")
         nltk.data.path.append('data' + os.sep + "lib" + os.sep + 'omw')
-        nltk.download("'omw-1.4'", download_dir="data" + os.sep + "lib" + os.sep + "omw")
+        nltk.download("omw-1.4", download_dir="data" + os.sep + "lib" + os.sep + "omw")
 
     @staticmethod
     def preprocess(text: str):

@@ -50,8 +50,8 @@ class Processor:
         return self.tokenizer.tokenize(text)
 
     @staticmethod
-    def remove_stopwords(tokens): # Third setep
-        return [word for word in tokens if word not in stopwords.words("english") and len(word) > 3]
+    def remove_stopwords(tokens,remove_len=3): # Third setep
+        return [word for word in tokens if word not in stopwords.words("english") and len(word) > remove_len]
 
     def process_tokens(self, tokens): # Fourth setep
         new_tokens = []

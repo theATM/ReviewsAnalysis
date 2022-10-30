@@ -10,14 +10,14 @@ import time  # I shall import time this instance!
 def google_scrapp(app_id, language, country, amount):
     google_reviews = reviews_all(
         str(app_id),
-        sleep_milliseconds=10,  # defaults to 0
+        sleep_milliseconds=100,  # defaults to 0
         lang=str(language),  # defaults to 'en'
         country=str(country),  # defaults to 'us'
         sort=Sort.NEWEST,  # defaults to Sort.MOST_RELEVANT
     )
     google_dataframe = pd.DataFrame(np.array(google_reviews), columns=['review'])
     google_dataframe = google_dataframe.join(pd.DataFrame(google_dataframe.pop('review').tolist()))
-    google_dataframe.drop(['userImage', 'repliedAt', 'replyContent'], axis=1, inplace=True)
+    google_dataframe.drop(['userImage', 'repliedAt', 'replyContent', 'reviewId', 'thumbsUpCount'], axis=1, inplace=True)
 
 
     return google_dataframe
@@ -28,8 +28,8 @@ def apple_scrapp(app_name, app_id, country, how_many):
     appStore_reviews.review(how_many=how_many)
     appStore_dataframe = pd.DataFrame(np.array(appStore_reviews.reviews), columns=['review'])
     appStore_dataframe = appStore_dataframe.join(pd.DataFrame(appStore_dataframe.pop('review').tolist()))
-    appStore_dataframe.drop(['isEdited', 'userName'], axis=1, inplace=True)
-    appStore_dataframe = appStore_dataframe.rename(columns={'review': 'content'})
+    appStore_dataframe.drop(['isEdited', 'title'], axis=1, inplace=True)
+    appStore_dataframe = appStore_dataframe.rename(columns={'review': 'content', 'rating': 'score', 'date': 'at'})
     return appStore_dataframe
 
 
@@ -46,7 +46,7 @@ class GoogleTranslator:
     @staticmethod
     def __remove_quotas(data):
         import re
-        return data['content'].apply( lambda x:  re.sub('"','',str(x)) )
+        return data['content'].apply(lambda x:  re.sub('"', '', str(x)))
 
 
 

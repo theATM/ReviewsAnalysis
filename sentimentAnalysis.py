@@ -38,3 +38,10 @@ def sentiment_graph(dataframe):
     date_conversion(dataframe)
     newframe = dataframe.groupby(dataframe['reviewCreatedVersion']).agg({'sentiment': np.mean, 'at': np.min})
     newframe.plot(x='at', y='sentiment', kind='bar', xlabel='Version release', ylabel='Version Average Sentiment')
+
+
+def sentiment_rating_graph(dataframe):
+    dataframe.groupby(dataframe['score'])['sentiment'].mean().plot(
+    kind='bar', rot=0, xlabel='Score', ylabel='Sentiment')
+
+

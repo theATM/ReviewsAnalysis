@@ -63,6 +63,10 @@ class Processor:
     def detokenize(self,tokens): # Only use if nesesary
         return ' '.join(tokens)
 
+    def not_no(self,tokens):
+        return [token if token!= "no" else "negation" for token in tokens]
+
+
 
 def count_data_stat(data):
     positive, negative = 0,0

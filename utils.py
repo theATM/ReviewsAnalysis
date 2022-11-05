@@ -7,12 +7,20 @@ from nltk.corpus import stopwords
 from nltk.tokenize.casual import TweetTokenizer
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
 
-sentiment_dict = \
+labels_dict = \
 {
     "Positive" : 1,
     "Negative" : 0,
-    "Neutral"  : -1, #merge neutral to negative
+    "Neutral"  : -1, #swap neutral to negative
 }
+
+sentiment_dict = \
+{
+    "Positive": 1,
+    "Neutral": 0,
+    "Negative": -1,
+}
+
 souce_type_dict = \
 {
     "Suomi112_google" : 0,
@@ -68,15 +76,22 @@ class Processor:
 
 
 
-def count_data_stat(data):
-    positive, negative = 0,0
+def count_data_stat(data,use_labels=True):
+    positive, negative, neutral = 0,0,0
+    positive_label = labels_dict["Positive"] if use_labels else sentiment_dict["Positive"]
+    neutral_labels = labels_dict["Neutral"] if use_labels else sentiment_dict["Neutral"]
+    negative_labels = labels_dict["Negative"] if use_labels else sentiment_dict["Negative"]
     for sent in data.sentiment:
-        if sent == 0:
+        if sent == negative_labels:
             negative +=1
-        elif sent == 1:
+        elif sent == positive_label:
             positive +=1
+        elif sent == neutral_labels:
+            neutral +=1
     print("Positive :", positive)
     print("Negative :", negative)
+    if neutral > 0 :
+        print("Neutral :", neutral)
 
     d1g, d1a, d2g, d2a = 0,0,0,0
     for type in data.type:

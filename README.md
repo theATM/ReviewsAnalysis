@@ -8,7 +8,7 @@ Project consist of four jupyter notebooks designed to do the 8 tasks defined in 
 For task 1 to 4 please run scrapper.ipynb.
 For task 5 run topic.ipynb.
 For task 6 run training.ipynb.
-For tasks 7 and 8 run TAM.ipynb.
+For tasks 7 run 7_TAM.ipynb.
 
 Additionally, to the notebooks there are .py files which contain necessary functions and classes, but are not ment to be executed on its own.
 
